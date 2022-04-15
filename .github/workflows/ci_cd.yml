@@ -1,25 +1,49 @@
-name: CI/CD counter app
+# name: CI/CD counter app
 
+# on:
+#   push:
+#     branches: [ master ]
+
+# jobs:
+#   Deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2 
+#       - name: Deploy in EC2
+#         env:
+#             PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+#             HOSTNAME : ${{ secrets.HOSTNAME  }}
+#             USER_NAME : ${{ secrets.USER_NAME  }}
+            
+#         run: |
+#           ssh -o StrictHostKeyChecking=no -i ${PRIVATE_KEY} ${USER_NAME}@${HOSTNAME} '
+          
+#             #logged in ec2.
+#             cd app/ezops-test-Matheus-Thurler
+#             git checkout master &&
+#             git pull origin master &&
+#             docker-compose up --force-recreate --build -d
+
+name: Push-to-EC2
+
+# Trigger deployment only on push to master branch
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-  Deploy:
+  deploy:
+    name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2 
-      - name: Deploy in EC2
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
         env:
-            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-            HOSTNAME : ${{ secrets.HOSTNAME  }}
-            USER_NAME : ${{ secrets.USER_NAME  }}
-            
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ${PRIVATE_KEY} ${USER_NAME}@${HOSTNAME} '
-          
-            #logged in ec2.
-            cd app/ezops-test-Matheus-Thurler
-            git checkout master &&
-            git pull origin master &&
-            docker-compose up --force-recreate --build -d
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+          REMOTE_HOST: ${{ secrets.HOSTNAME  }}
+          REMOTE_USER: ${{ secrets.USER_NAME  }}
