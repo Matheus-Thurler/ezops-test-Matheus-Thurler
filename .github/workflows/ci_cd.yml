@@ -42,6 +42,5 @@ jobs:
         script: |
             #logged in ec2.
             cd app/ezops-test-Matheus-Thurler
-            git checkout master &&
-            git pull origin master &&
+            git pull origin
             docker-compose up --force-recreate --build -d
