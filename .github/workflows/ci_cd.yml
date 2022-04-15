@@ -39,4 +39,9 @@ jobs:
         key: ${{ secrets.AWS_PRIVATE_KEY  }}
         username: ${{ secrets.USER_NAME  }}
         port: 22
-        script: whoami
+        script: |
+            #logged in ec2.
+            cd app/ezops-test-Matheus-Thurler
+            git checkout master &&
+            git pull origin master &&
+            docker-compose up --force-recreate --build -d
