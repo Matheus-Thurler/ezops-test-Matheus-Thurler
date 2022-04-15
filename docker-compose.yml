@@ -1,9 +1,8 @@
-version: '3'
+version: '3.3'
 
 services:
-  app: .
-  entrypoint: .docker/ec-instance.sh
-  container_name: app-desafio-devops
-  ports:
-    - '3000:3000'
-  restart: always
+  app:
+    build: .
+    container_name: desafio-ezops
+    ports:
+      - '3000:3000'
