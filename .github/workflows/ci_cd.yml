@@ -24,26 +24,19 @@
 #             git pull origin master &&
 #             docker-compose up --force-recreate --build -d
 
-name: Push-to-EC2
-
-# Trigger deployment only on push to master branch
-on:
-  push:
-    branches:
-      - master
-
+name: remote ssh command
+on: [push]
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
+
+  build:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
-
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-          REMOTE_HOST: ${{ secrets.HOSTNAME  }}
-          REMOTE_USER: ${{ secrets.USER_NAME  }}
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOSTNAME  }}
+        key: ${{ secrets.AWS_PRIVATE_KEY  }}
+        username: ${{ secrets.USER_NAME  }}
+        port: 22
+        script: whoami
