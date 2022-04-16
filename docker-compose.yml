@@ -7,5 +7,5 @@ services:
     container_name: desafio-ezops
     ports:
       - '3000:3000'
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
