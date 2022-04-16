@@ -40,12 +40,12 @@ function addMessages(message){
       <p>  ${message.message} </p>`)
    }
 function getMessages(){
-  $.get('https://localhost:3000/messages', (data) => {
+  $.get('/messages', (data) => {
    data.forEach(addMessages);
    })
  }
 function sendMessage(message){
-   $.post('https://localhost:3000/messages', message)
+   $.post('/messages', message)
  }
 
 
