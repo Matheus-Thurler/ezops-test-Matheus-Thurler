@@ -18,3 +18,4 @@ jobs:
             cd app/ezops-test-Matheus-Thurler
             git pull
             docker-compose up --force-recreate --build -d
+            docker image prune -a
