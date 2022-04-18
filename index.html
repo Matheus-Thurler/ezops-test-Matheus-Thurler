@@ -29,16 +29,22 @@ socket.on('message', addMessages)
 
 $(() => {
     $("#send").click(()=>{
+       let date = new Date();
        sendMessage({
           name: $("#name").val(), 
-          message:$("#message").val()});
+          message:$("#message").val(),
+          date : date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+         })
         })
       getMessages()
     })
 function addMessages(message){
    $("#messages").append(`
       <h4> ${message.name} </h4>
-      <p>  ${message.message} </p>`)
+      <p>  ${message.message} </p>
+      <p>  ${message.date} </p>
+      `
+      )
    }
 function getMessages(){
   $.get('/messages', (data) => {
